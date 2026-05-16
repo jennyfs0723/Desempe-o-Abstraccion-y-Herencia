@@ -1,0 +1,68 @@
+from abc import ABC, abstractmethod
+
+class Contrato:
+    def __init__(self, tipo, fecha_inicio, duracion_meses):
+        self.tipo = tipo
+        self.fecha_inicio = fecha_inicio
+        self.duracion_meses = duracion_meses
+
+    def __str__(self):
+        return f'Contrato tipo: {self.tipo}, inicio: {self.fecha_inicio}, duración: {self.duracion_meses} meses'
+
+
+class Trabajador(ABC):
+    def __init__(self, nombre, contrato):
+        self.nombre = nombre
+        self.contrato = contrato
+
+    @abstractmethod
+    def calcular_salario(self):
+        pass
+
+    @abstractmethod
+    def generar_reporte(self):
+        pass
+
+
+class EmpleadoFijo(Trabajador):
+    def __init__(self, nombre, contrato, salario_base):
+        super().__init__(nombre, contrato)
+        self.salario_base = salario_base
+
+    def calcular_salario(self):
+        return self.salario_base
+
+    def generar_reporte(self):
+        print('--- Reporte Empleado Fijo ---')
+        print(f' Nombre: {self.nombre}')
+        print(self.contrato)
+        print(f'Salario mensual fijo: {self.salario_base}')
+
+
+class EmpleadoTemporal(Trabajador):
+    def __init__(self, nombre, contrato, tarifa_dia, dias_trabajados):
+        super().__init__(nombre, contrato)
+        self.tarifa_dia = tarifa_dia
+        self.dias_trabajados = dias_trabajados
+
+    def calcular_salario(self):
+        return self.tarifa_dia * self.dias_trabajados
+
+    def generar_reporte(self):
+        print('--- Reporte Empleado Temporal ---')
+        print(f'Nombre: {self.nombre}')
+        print(self.contrato)
+        print(f'Tarifa por día: {self.tarifa_dia}')
+        print(f'Días trabajados: {self.dias_trabajados}')
+        print(f'Salario calculado: { self.calcular_salario()}')
+
+if __name__ == '__main__':
+    contrato_fijo = Contrato('Indefinido', '2025-05-15', 12)
+    contrato_temp = Contrato('Temporal', '2025-12-1', 6)
+
+    empleado1 = EmpleadoFijo('Jenny', contrato_fijo, 2000000)
+    empleado2 = EmpleadoTemporal('Juan', contrato_temp, 80000, 20)
+
+    empleado1.generar_reporte()
+    print('*'*50)
+    empleado2.generar_reporte()
