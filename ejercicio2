@@ -1,0 +1,42 @@
+from abc import ABC,abstractmethod
+
+class Bebida(ABC):
+    def __init__(self,nombre):
+        self.nombre = nombre
+
+    @abstractmethod
+    def preparar(self):
+        pass
+
+    def servir(self):
+        pass
+
+class Tinto(Bebida):
+    def __init__(self,nombre,con_azucar):
+        super().__init__(nombre)
+        self.con_azucar = con_azucar
+
+    def preparar(self):
+        if self.con_azucar:
+            print(f'Preparando {self.nombre} con azucar')
+        else:
+            print(f'Preparando {self.nombre} sin azucar')
+
+    def servir(self):
+        if self.con_azucar:
+            print(f'Sirviendo {self.nombre} con azucar')
+        else:
+            print(f'Sirviendo {self.nombre} sin azucar')
+
+if __name__ == '__main__':
+    print('--- Sistema de Bebidas ---')
+    tinto1 = Tinto('Tinto mañanero', True)
+    tinto2 = Tinto('Tinto cargado', False)
+
+    print('--- Primer Tinto ---')
+    tinto1.preparar()
+    tinto1.servir()
+
+    print('--- Segundo Tinto')
+    tinto2.preparar()
+    tinto2.servir()
