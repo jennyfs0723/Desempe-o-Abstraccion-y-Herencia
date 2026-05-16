@@ -1,0 +1,82 @@
+'''En este ejercicio se solicita entrada por consola, esto es bueno ya que podemos jugar y darle mas 
+flexibilidad al programa, pedimos valores en tiempo real y realizamos una simulacion practica, 
+los demas ejercicios se haran el pie de los requerimientos que solicita el profesor en los ejercicios'''
+
+from abc import ABC, abstractmethod
+
+class Sensor(ABC):
+    def __init__(self, ubicacion):
+        self.ubicacion = ubicacion
+
+    @abstractmethod
+    def leer_dato(self, valor):
+        pass
+
+    @abstractmethod
+    def mostrar_alerta(self, valor):
+        pass
+
+
+class SensorTemperatura(Sensor):
+    def leer_dato(self, valor):
+        return valor
+
+    def mostrar_alerta(self, valor):
+        umbral_min = 20
+        umbral_max = 40
+        print('Temperatura en', self.ubicacion, 'es:', valor, '°C')
+        if valor < umbral_min:
+            print('Temperatura por debajo del umbral mínimo')
+        elif valor > umbral_max:
+            print('Temperatura por encima del umbral máximo')
+        else:
+            print('Temperatura dentro del rango')
+
+
+class SensorHumedad(Sensor):
+    def leer_dato(self, valor):
+        return valor
+
+    def mostrar_alerta(self, valor):
+        umbral_min = 20
+        umbral_max = 60
+        print('Humedad en', self.ubicacion, 'es:', valor, '%')
+        if valor < umbral_min:
+            print('Humedad por debajo del umbral mínimo')
+        elif valor > umbral_max:
+            print('Humedad por encima del umbral máximo')
+        else:
+            print('Humedad dentro del rango')
+
+
+if __name__ == '__main__':
+    print('---- Sensor de Temperatura y Humedad ----')
+
+    while True:
+        print('''
+        Que deseas medir:
+        1. Temperatura
+        2. Humedad
+        3. Salir''')
+
+        opcion = int(input('Selecciona la opcion: '))
+
+        if opcion == 1:
+            ubi = input('Ubicacion del sensor de temperatura: ')
+            sensor = SensorTemperatura(ubi)
+            valor = float(input('Ingrese lectura de temperatura: '))
+            sensor.mostrar_alerta(valor)
+
+        elif opcion == 2:
+            ubi = input('Ubicacion del sensor de humedad: ')
+            sensor = SensorHumedad(ubi)
+            valor = float(input('Ingrese lectura de humedad: '))
+            sensor.mostrar_alerta(valor)
+
+        elif opcion == 3:
+            print('Saliendo del programa...')
+            break
+
+        else:
+            print('Opcion invalida, intenta de nuevo.')
+
